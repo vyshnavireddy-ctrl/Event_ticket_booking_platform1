@@ -1,431 +1,439 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EventVerse | Smart Multi-Booking</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventVerse | Smart Multi-Booking</title>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
-    rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 
-  <!-- QR Code Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
 
-  <!-- BACKGROUND ANIMATION -->
-  <div class="bg-animated">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-  </div>
-
-  <!-- TOAST NOTIFICATIONS -->
-  <div id="toastContainer" class="toast-container"></div>
-
-  <!-- MODALS -->
-
-  <!-- 1. Auth Modal -->
-  <div id="authModal" class="modal hidden">
-    <div class="modal-content glass-panel">
-      <button class="close-btn" onclick="app.closeModal('authModal')"><i class="fas fa-times"></i></button>
-      <div class="auth-tabs">
-        <button class="tab-btn active" onclick="app.switchAuthTab('login')">Login</button>
-        <button class="tab-btn" onclick="app.switchAuthTab('signup')">Sign Up</button>
-      </div>
-
-      <form id="loginForm" class="auth-form" onsubmit="app.handleAuth(event, 'login')">
-        <div class="input-group">
-          <i class="fas fa-envelope"></i>
-          <input type="email" id="loginEmail" placeholder="Email" required>
-        </div>
-        <div class="input-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" id="loginPassword" placeholder="Password" required>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Login to EventVerse</button>
-      </form>
-
-      <form id="signupForm" class="auth-form hidden" onsubmit="app.handleAuth(event, 'signup')">
-        <div class="input-group">
-          <i class="fas fa-user"></i>
-          <input type="text" id="signupName" placeholder="Full Name" required>
-        </div>
-        <div class="input-group">
-          <i class="fas fa-envelope"></i>
-          <input type="email" id="signupEmail" placeholder="Email" required>
-        </div>
-        <div class="input-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" id="signupPassword" placeholder="Password" required>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
-      </form>
+    <!-- BACKGROUND ANIMATION -->
+    <div class="bg-animated">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
     </div>
-  </div>
 
-  <!-- 2. Payment Modal -->
-  <div id="paymentModal" class="modal hidden">
-    <div class="modal-content glass-panel payment-panel">
-      <button class="close-btn" onclick="app.closeModal('paymentModal')"><i class="fas fa-times"></i></button>
-      <h2>Secure Checkout</h2>
-      <div class="payment-summary" id="paymentSummary">
-        <!-- Rendered via JS -->
-      </div>
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toastContainer" class="toast-container"></div>
 
-      <!-- Payment Tabs -->
-      <div class="auth-tabs" id="paymentTabs">
-        <button class="tab-btn active" onclick="app.switchPaymentTab('card')">Card</button>
-        <button class="tab-btn" onclick="app.switchPaymentTab('upi')">UPI Apps</button>
-      </div>
+    <!-- MODALS -->
 
-      <!-- Card Input Step -->
-      <form id="paymentForm" onsubmit="app.handlePaymentStep1(event)">
-        <div class="input-group">
-          <i class="fas fa-credit-card"></i>
-          <input type="text" id="cardNumber" placeholder="Card Number (e.g. 4111 1111...)" maxlength="19" required>
-        </div>
-        <div class="input-row">
-          <div class="input-group">
-            <i class="fas fa-calendar-alt"></i>
-            <input type="text" placeholder="MM/YY" maxlength="5" required>
-          </div>
-          <div class="input-group">
-            <i class="fas fa-lock"></i>
-            <input type="text" placeholder="CVV" maxlength="3" required>
-          </div>
-        </div>
-        <div class="input-group">
-          <i class="fas fa-user"></i>
-          <input type="text" placeholder="Cardholder Name" required>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Pay Now</button>
-      </form>
+    <!-- 1. Auth Modal -->
+    <div id="authModal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <button class="close-btn" onclick="app.closeModal('authModal')"><i class="fas fa-times"></i></button>
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="app.switchAuthTab('login')">Login</button>
+                <button class="tab-btn" onclick="app.switchAuthTab('signup')">Sign Up</button>
+            </div>
 
-      <!-- UPI Step -->
-      <form id="upiForm" class="hidden" onsubmit="app.handlePaymentStep1(event)">
-        <p class="text-muted text-center mb-1">Select your preferred UPI App</p>
-        <div class="upi-options">
-          <button type="button" class="btn btn-outline upi-btn" onclick="app.selectUpi('GPay')">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/1200px-Google_Pay_Logo.svg.png"
-              alt="GPay" style="height:20px;">
-          </button>
-          <button type="button" class="btn btn-outline upi-btn" onclick="app.selectUpi('PhonePe')">
-            <img src="https://download.logo.wine/logo/PhonePe/PhonePe-Logo.wine.png" alt="PhonePe" style="height:20px;">
-          </button>
-          <button type="button" class="btn btn-outline upi-btn" onclick="app.selectUpi('Paytm')">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/1200px-Paytm_Logo_%28standalone%29.svg.png"
-              alt="Paytm" style="height:20px;">
-          </button>
-        </div>
-        <div class="input-group mt-1">
-          <i class="fas fa-at"></i>
-          <input type="text" id="upiId" placeholder="Or enter UPI ID (e.g. name@okhdfcbank)">
-        </div>
-        <button type="submit" class="btn btn-primary btn-full mt-1">Pay Now</button>
-      </form>
+            <form id="loginForm" class="auth-form" onsubmit="app.handleAuth(event, 'login')">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login to EventVerse</button>
+            </form>
 
-      <!-- OTP Step -->
-      <form id="otpForm" class="hidden" onsubmit="app.handlePaymentStep2(event)">
-        <p class="text-muted text-center mb-1">Enter the 4-digit OTP sent to your registered mobile.</p>
-        <div class="otp-inputs">
-          <input type="text" maxlength="1" class="otp-box" required>
-          <input type="text" maxlength="1" class="otp-box" required>
-          <input type="text" maxlength="1" class="otp-box" required>
-          <input type="text" maxlength="1" class="otp-box" required>
+            <form id="signupForm" class="auth-form hidden" onsubmit="app.handleAuth(event, 'signup')">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="signupName" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="signupEmail" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="signupPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+            </form>
         </div>
-        <button type="submit" class="btn btn-primary btn-full" id="verifyOtpBtn">Verify & Book</button>
-      </form>
-
-      <!-- Success Animation Step -->
-      <div id="paymentSuccess" class="hidden text-center">
-        <div class="success-checkmark">
-          <div class="check-icon">
-            <span class="icon-line line-tip"></span>
-            <span class="icon-line line-long"></span>
-            <div class="icon-circle"></div>
-            <div class="icon-fix"></div>
-          </div>
-        </div>
-        <h3>Booking Successful!</h3>
-        <p>Your tickets have been generated.</p>
-        <button class="btn btn-outline mt-2" onclick="app.showTicketAfterPayment()">View Ticket</button>
-      </div>
     </div>
-  </div>
 
-  <!-- 3. Ticket Modal -->
-  <div id="ticketModal" class="modal hidden">
-    <div class="modal-content ticket-panel">
-      <button class="close-btn dark" onclick="app.closeModal('ticketModal')"><i class="fas fa-times"></i></button>
-      <div class="ticket-wrapper" id="ticketWrapper">
-        <!-- Rendered via JS -->
-      </div>
-      <button class="btn btn-primary btn-full mt-2" onclick="window.print()">Download / Print</button>
-    </div>
-  </div>
+    <!-- 2. Payment Modal -->
+    <div id="paymentModal" class="modal hidden">
+        <div class="modal-content glass-panel payment-panel">
+            <button class="close-btn" onclick="app.closeModal('paymentModal')"><i class="fas fa-times"></i></button>
+            <h2>Secure Checkout</h2>
+            <div class="payment-summary" id="paymentSummary">
+                <!-- Rendered via JS -->
+            </div>
 
-  <!-- Travel Details Modal (Bus/Train) -->
-  <div id="travelDetailsModal" class="modal hidden">
-    <div class="modal-content glass-panel">
-      <button class="close-btn" onclick="app.closeModal('travelDetailsModal')"><i class="fas fa-times"></i></button>
-      <h2>Journey Details</h2>
-      <form onsubmit="app.proceedFromTravelDetails(event)">
-        <div class="input-group">
-          <i class="fas fa-map-marker-alt"></i>
-          <input type="text" id="travelSource" placeholder="Enter Source City" required>
+            <!-- Payment Tabs -->
+            <div class="auth-tabs" id="paymentTabs">
+                <button class="tab-btn active" onclick="app.switchPaymentTab('card')">Card</button>
+                <button class="tab-btn" onclick="app.switchPaymentTab('upi')">UPI Apps</button>
+            </div>
+
+            <!-- Card Input Step -->
+            <form id="paymentForm" onsubmit="app.handlePaymentStep1(event)">
+                <div class="input-group">
+                    <i class="fas fa-credit-card"></i>
+                    <input type="text" id="cardNumber" placeholder="Card Number (e.g. 4111 1111...)" maxlength="19"
+                        required>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="text" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="text" placeholder="CVV" maxlength="3" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Cardholder Name" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Pay Now</button>
+            </form>
+
+            <!-- UPI Step -->
+            <form id="upiForm" class="hidden" onsubmit="app.handlePaymentStep1(event)">
+                <p class="text-muted text-center mb-1">Select your preferred UPI App</p>
+                <div class="upi-options">
+                    <button type="button" class="btn btn-outline upi-btn" onclick="app.selectUpi('GPay')">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/1200px-Google_Pay_Logo.svg.png"
+                            alt="GPay" style="height:20px;">
+                    </button>
+                    <button type="button" class="btn btn-outline upi-btn" onclick="app.selectUpi('PhonePe')">
+                        <img src="https://download.logo.wine/logo/PhonePe/PhonePe-Logo.wine.png" alt="PhonePe"
+                            style="height:20px;">
+                    </button>
+                    <button type="button" class="btn btn-outline upi-btn" onclick="app.selectUpi('Paytm')">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/1200px-Paytm_Logo_%28standalone%29.svg.png"
+                            alt="Paytm" style="height:20px;">
+                    </button>
+                </div>
+                <div class="input-group mt-1">
+                    <i class="fas fa-at"></i>
+                    <input type="text" id="upiId" placeholder="Or enter UPI ID (e.g. name@okhdfcbank)">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full mt-1">Pay Now</button>
+            </form>
+
+            <!-- OTP Step -->
+            <form id="otpForm" class="hidden" onsubmit="app.handlePaymentStep2(event)">
+                <p class="text-muted text-center mb-1">Enter the 4-digit OTP sent to your registered mobile.</p>
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1" class="otp-box" required>
+                    <input type="text" maxlength="1" class="otp-box" required>
+                    <input type="text" maxlength="1" class="otp-box" required>
+                    <input type="text" maxlength="1" class="otp-box" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="verifyOtpBtn">Verify & Book</button>
+            </form>
+
+            <!-- Success Animation Step -->
+            <div id="paymentSuccess" class="hidden text-center">
+                <div class="success-checkmark">
+                    <div class="check-icon">
+                        <span class="icon-line line-tip"></span>
+                        <span class="icon-line line-long"></span>
+                        <div class="icon-circle"></div>
+                        <div class="icon-fix"></div>
+                    </div>
+                </div>
+                <h3>Booking Successful!</h3>
+                <p>Your tickets have been generated.</p>
+                <button class="btn btn-outline mt-2" onclick="app.showTicketAfterPayment()">View Ticket</button>
+            </div>
         </div>
-        <div class="input-group">
-          <i class="fas fa-map-marker-alt"></i>
-          <input type="text" id="travelDestination" placeholder="Enter Destination City" required>
+    </div>
+
+    <!-- 3. Ticket Modal -->
+    <div id="ticketModal" class="modal hidden">
+        <div class="modal-content ticket-panel">
+            <button class="close-btn dark" onclick="app.closeModal('ticketModal')"><i class="fas fa-times"></i></button>
+            <div class="ticket-wrapper" id="ticketWrapper">
+                <!-- Rendered via JS -->
+            </div>
+            <button class="btn btn-primary btn-full mt-2" onclick="window.print()">Download / Print</button>
         </div>
-        <div class="input-group">
-          <i class="fas fa-calendar"></i>
-          <input type="date" id="travelDate" required>
+    </div>
+
+    <!-- Travel Details Modal (Bus/Train) -->
+    <div id="travelDetailsModal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <button class="close-btn" onclick="app.closeModal('travelDetailsModal')"><i
+                    class="fas fa-times"></i></button>
+            <h2>Journey Details</h2>
+            <form onsubmit="app.proceedFromTravelDetails(event)">
+                <div class="input-group">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="travelSource" placeholder="Enter Source City" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="travelDestination" placeholder="Enter Destination City" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-calendar"></i>
+                    <input type="date" id="travelDate" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Continue to Seats</button>
+            </form>
         </div>
-        <button type="submit" class="btn btn-primary btn-full">Continue to Seats</button>
-      </form>
     </div>
-  </div>
 
-  <!-- 4. Seat Selection Modal (Movie/Bus/Sports) -->
-  <div id="seatModal" class="modal hidden">
-    <div class="modal-content glass-panel seat-panel">
-      <button class="close-btn" onclick="app.closeModal('seatModal')"><i class="fas fa-times"></i></button>
-      <h2 id="seatModalTitle">Select Seats</h2>
+    <!-- 4. Seat Selection Modal (Movie/Bus/Sports) -->
+    <div id="seatModal" class="modal hidden">
+        <div class="modal-content glass-panel seat-panel">
+            <button class="close-btn" onclick="app.closeModal('seatModal')"><i class="fas fa-times"></i></button>
+            <h2 id="seatModalTitle">Select Seats</h2>
 
-      <div class="seat-legend">
-        <div class="legend-item"><span class="seat available"></span> Available</div>
-        <div class="legend-item"><span class="seat selected"></span> Selected</div>
-        <div class="legend-item"><span class="seat booked"></span> Booked</div>
-      </div>
+            <div class="seat-legend">
+                <div class="legend-item"><span class="seat available"></span> Available</div>
+                <div class="legend-item"><span class="seat selected"></span> Selected</div>
+                <div class="legend-item"><span class="seat booked"></span> Booked</div>
+            </div>
 
-      <div class="screen-indicator hidden" id="movieScreenIndicator">SCREEN THIS WAY</div>
+            <div class="screen-indicator hidden" id="movieScreenIndicator">SCREEN THIS WAY</div>
 
-      <div class="seat-map-container" id="seatMapContainer">
-        <!-- Seats rendered by JS -->
-      </div>
+            <div class="seat-map-container" id="seatMapContainer">
+                <!-- Seats rendered by JS -->
+            </div>
 
-      <div class="seat-summary mt-2">
-        <div>Selected: <span id="selectedSeatCount">0</span></div>
-        <div>Total: ₹<span id="selectedSeatTotal">0</span></div>
-      </div>
-      <button class="btn btn-primary btn-full mt-1" id="confirmSeatsBtn"
-        onclick="app.proceedToCheckoutFromSeats()">Proceed</button>
-    </div>
-  </div>
-
-
-  <!-- APP LAYOUT -->
-  <div class="app-container">
-
-    <!-- SIDEBAR NAVIGATION -->
-    <aside class="sidebar glass-panel" id="sidebar">
-      <div class="sidebar-header">
-        <a href="#" class="logo" onclick="app.navigate('home')">
-          <i class="fas fa-infinity glow-icon"></i> Event<span class="text-accent">Verse</span>
-        </a>
-      </div>
-
-      <div class="user-profile hidden" id="userProfile">
-        <div class="avatar"><i class="fas fa-user-astronaut"></i></div>
-        <div class="info">
-          <div class="name" id="userNameDisplay">John Doe</div>
-          <button class="logout-btn" onclick="app.logout()">Logout</button>
+            <div class="seat-summary mt-2">
+                <div>Selected: <span id="selectedSeatCount">0</span></div>
+                <div>Total: ₹<span id="selectedSeatTotal">0</span></div>
+            </div>
+            <button class="btn btn-primary btn-full mt-1" id="confirmSeatsBtn"
+                onclick="app.proceedToCheckoutFromSeats()">Proceed</button>
         </div>
-      </div>
+    </div>
 
-      <nav class="nav-menu">
-        <a href="#" class="nav-item active" data-target="home" onclick="app.navigate('home')"><i
-            class="fas fa-home"></i> Home</a>
-        <a href="#" class="nav-item hidden" data-target="dashboard" onclick="app.navigate('dashboard')"
-          id="navDashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
-        <a href="#" class="nav-item" data-target="movies" onclick="app.navigate('movies')"><i class="fas fa-film"></i>
-          Movies</a>
-        <a href="#" class="nav-item" data-target="trains" onclick="app.navigate('trains')"><i class="fas fa-train"></i>
-          Trains</a>
-        <a href="#" class="nav-item" data-target="flights" onclick="app.navigate('flights')"><i
-            class="fas fa-plane"></i> Flights</a>
-        <a href="#" class="nav-item" data-target="buses" onclick="app.navigate('buses')"><i class="fas fa-bus"></i>
-          Buses</a>
-        <a href="#" class="nav-item" data-target="hotels" onclick="app.navigate('hotels')"><i class="fas fa-hotel"></i>
-          Hotels</a>
-        <a href="#" class="nav-item" data-target="sports" onclick="app.navigate('sports')"><i class="fas fa-futbol"></i>
-          Sports/IPL</a>
 
-        <div class="nav-divider"></div>
+    <!-- APP LAYOUT -->
+    <div class="app-container">
 
-        <a href="#" class="nav-item" data-target="wishlist" onclick="app.navigate('wishlist')"><i
-            class="fas fa-heart"></i> Wishlist</a>
-        <a href="#" class="nav-item" data-target="bookings" onclick="app.navigate('bookings')"><i
-            class="fas fa-ticket-alt"></i> My Bookings</a>
-      </nav>
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar glass-panel" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo" onclick="app.navigate('home')">
+                    <i class="fas fa-infinity glow-icon"></i> Event<span class="text-accent">Verse</span>
+                </a>
+            </div>
 
-      <div class="location-picker">
-        <i class="fas fa-map-marker-alt"></i>
-        <select id="globalLocation" onchange="app.changeLocation()">
-          <option value="All">Global (All Cities)</option>
-          <option value="Mumbai">Mumbai</option>
-          <option value="Delhi">Delhi</option>
-          <option value="Bangalore">Bangalore</option>
-          <option value="Hyderabad">Hyderabad</option>
-          <option value="Chennai">Chennai</option>
-          <option value="Pune">Pune</option>
-        </select>
-      </div>
-    </aside>
+            <div class="user-profile hidden" id="userProfile">
+                <div class="avatar"><i class="fas fa-user-astronaut"></i></div>
+                <div class="info">
+                    <div class="name" id="userNameDisplay">John Doe</div>
+                    <button class="logout-btn" onclick="app.logout()">Logout</button>
+                </div>
+            </div>
 
-    <!-- MAIN CONTENT AREA -->
-    <main class="main-content" id="mainContent">
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-target="home" onclick="app.navigate('home')"><i
+                        class="fas fa-home"></i> Home</a>
+                <a href="#" class="nav-item hidden" data-target="dashboard" onclick="app.navigate('dashboard')"
+                    id="navDashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="#" class="nav-item" data-target="movies" onclick="app.navigate('movies')"><i
+                        class="fas fa-film"></i>
+                    Movies</a>
+                <a href="#" class="nav-item" data-target="trains" onclick="app.navigate('trains')"><i
+                        class="fas fa-train"></i>
+                    Trains</a>
+                <a href="#" class="nav-item" data-target="flights" onclick="app.navigate('flights')"><i
+                        class="fas fa-plane"></i> Flights</a>
+                <a href="#" class="nav-item" data-target="buses" onclick="app.navigate('buses')"><i
+                        class="fas fa-bus"></i>
+                    Buses</a>
+                <a href="#" class="nav-item" data-target="hotels" onclick="app.navigate('hotels')"><i
+                        class="fas fa-hotel"></i>
+                    Hotels</a>
+                <a href="#" class="nav-item" data-target="sports" onclick="app.navigate('sports')"><i
+                        class="fas fa-futbol"></i>
+                    Sports/IPL</a>
 
-      <!-- TOPBAR (Mobile Toggle & Auth) -->
-      <header class="topbar">
-        <button class="mobile-toggle" onclick="app.toggleSidebar()"><i class="fas fa-bars"></i></button>
-        <div class="topbar-actions" id="topbarActions">
-          <button class="btn btn-outline btn-sm" onclick="app.openModal('authModal')">Login / Sign Up</button>
+                <div class="nav-divider"></div>
+
+                <a href="#" class="nav-item" data-target="wishlist" onclick="app.navigate('wishlist')"><i
+                        class="fas fa-heart"></i> Wishlist</a>
+                <a href="#" class="nav-item" data-target="bookings" onclick="app.navigate('bookings')"><i
+                        class="fas fa-ticket-alt"></i> My Bookings</a>
+            </nav>
+
+            <div class="location-picker">
+                <i class="fas fa-map-marker-alt"></i>
+                <select id="globalLocation" onchange="app.changeLocation()">
+                    <option value="All">Global (All Cities)</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Pune">Pune</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content" id="mainContent">
+
+            <!-- TOPBAR (Mobile Toggle & Auth) -->
+            <header class="topbar">
+                <button class="mobile-toggle" onclick="app.toggleSidebar()"><i class="fas fa-bars"></i></button>
+                <div class="topbar-actions" id="topbarActions">
+                    <button class="btn btn-outline btn-sm" onclick="app.openModal('authModal')">Login / Sign Up</button>
+                </div>
+            </header>
+
+            <!-- VIEWS CONTAINER -->
+            <div class="views">
+
+                <!-- DASHBOARD VIEW -->
+                <section id="view-dashboard" class="view">
+                    <h1 class="gradient-text">Welcome to your Dashboard</h1>
+                    <p class="text-muted">Here's an overview of your activity.</p>
+
+                    <div class="dashboard-stats mt-2">
+                        <div class="stat-card glass-panel text-center p-2">
+                            <h2 id="dashBookingsCount">0</h2>
+                            <p>Total Bookings</p>
+                        </div>
+                        <div class="stat-card glass-panel text-center p-2">
+                            <h2 id="dashWishlistCount">0</h2>
+                            <p>Saved Items</p>
+                        </div>
+                    </div>
+
+                    <h2 class="section-title mt-3">Recent Bookings</h2>
+                    <div class="bookings-list" id="dashboardRecentBookings">
+                        <!-- Rendered via JS -->
+                    </div>
+                </section>
+
+                <!-- HOME VIEW -->
+                <section id="view-home" class="view active">
+                    <div class="hero">
+                        <h1>Experience The <span class="text-accent gradient-text">Universe</span> of Events.</h1>
+                        <p>Book flights, trains, movies, and more seamlessly in one unified platform.</p>
+                        <div class="hero-search glass-panel">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="globalSearch" placeholder="Search for movies, flights, teams..."
+                                onkeyup="app.handleGlobalSearch()">
+                        </div>
+                    </div>
+
+                    <h2 class="section-title">Explore Categories</h2>
+                    <div class="category-grid">
+                        <div class="category-card glass-panel" onclick="app.navigate('movies')">
+                            <div class="cat-icon"><i class="fas fa-film"></i></div>
+                            <h3>Movies</h3>
+                        </div>
+                        <div class="category-card glass-panel" onclick="app.navigate('trains')">
+                            <div class="cat-icon"><i class="fas fa-train"></i></div>
+                            <h3>Trains</h3>
+                        </div>
+                        <div class="category-card glass-panel" onclick="app.navigate('flights')">
+                            <div class="cat-icon"><i class="fas fa-plane"></i></div>
+                            <h3>Flights</h3>
+                        </div>
+                        <div class="category-card glass-panel" onclick="app.navigate('buses')">
+                            <div class="cat-icon"><i class="fas fa-bus"></i></div>
+                            <h3>Buses</h3>
+                        </div>
+                        <div class="category-card glass-panel" onclick="app.navigate('hotels')">
+                            <div class="cat-icon"><i class="fas fa-hotel"></i></div>
+                            <h3>Hotels</h3>
+                        </div>
+                        <div class="category-card glass-panel" onclick="app.navigate('sports')">
+                            <div class="cat-icon"><i class="fas fa-trophy"></i></div>
+                            <h3>Sports</h3>
+                        </div>
+                    </div>
+
+                    <h2 class="section-title mt-3">Trending Now <span class="badge" id="trendingCityBadge">Global</span>
+                    </h2>
+                    <div class="trending-scroll" id="trendingContainer">
+                        <!-- Rendered by JS -->
+                    </div>
+                </section>
+
+                <!-- DYNAMIC CATALOG VIEW (Used for Movies, Trains, etc.) -->
+                <section id="view-catalog" class="view">
+                    <div class="catalog-header">
+                        <h1 id="catalogTitle" class="gradient-text">Catalog</h1>
+                        <div class="catalog-filters glass-panel" id="catalogFilters">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+                    <div class="items-grid" id="catalogGrid">
+                        <!-- Rendered by JS -->
+                    </div>
+                </section>
+
+                <!-- WISHLIST VIEW -->
+                <section id="view-wishlist" class="view">
+                    <h1 class="gradient-text"><i class="fas fa-heart"></i> Your Wishlist</h1>
+                    <div class="items-grid" id="wishlistGrid"></div>
+                </section>
+
+                <!-- BOOKINGS VIEW -->
+                <section id="view-bookings" class="view">
+                    <h1 class="gradient-text"><i class="fas fa-ticket-alt"></i> My Bookings</h1>
+                    <div class="bookings-list" id="bookingsList"></div>
+                </section>
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- AI CHATBOT FAB -->
+    <div class="ai-fab" onclick="app.toggleChat()">
+        <i class="fas fa-robot"></i>
+        <span class="ping"></span>
+    </div>
+
+    <!-- AI CHAT WINDOW -->
+    <div class="chat-window glass-panel hidden" id="chatWindow">
+        <div class="chat-header">
+            <div>
+                <i class="fas fa-robot text-accent"></i> <strong>Aura</strong> - AI Assistant
+            </div>
+            <button onclick="app.toggleChat()"><i class="fas fa-times"></i></button>
         </div>
-      </header>
-
-      <!-- VIEWS CONTAINER -->
-      <div class="views">
-
-        <!-- DASHBOARD VIEW -->
-        <section id="view-dashboard" class="view">
-          <h1 class="gradient-text">Welcome to your Dashboard</h1>
-          <p class="text-muted">Here's an overview of your activity.</p>
-
-          <div class="dashboard-stats mt-2">
-            <div class="stat-card glass-panel text-center p-2">
-              <h2 id="dashBookingsCount">0</h2>
-              <p>Total Bookings</p>
-            </div>
-            <div class="stat-card glass-panel text-center p-2">
-              <h2 id="dashWishlistCount">0</h2>
-              <p>Saved Items</p>
-            </div>
-          </div>
-
-          <h2 class="section-title mt-3">Recent Bookings</h2>
-          <div class="bookings-list" id="dashboardRecentBookings">
-            <!-- Rendered via JS -->
-          </div>
-        </section>
-
-        <!-- HOME VIEW -->
-        <section id="view-home" class="view active">
-          <div class="hero">
-            <h1>Experience The <span class="text-accent gradient-text">Universe</span> of Events.</h1>
-            <p>Book flights, trains, movies, and more seamlessly in one unified platform.</p>
-            <div class="hero-search glass-panel">
-              <i class="fas fa-search"></i>
-              <input type="text" id="globalSearch" placeholder="Search for movies, flights, teams..."
-                onkeyup="app.handleGlobalSearch()">
-            </div>
-          </div>
-
-          <h2 class="section-title">Explore Categories</h2>
-          <div class="category-grid">
-            <div class="category-card glass-panel" onclick="app.navigate('movies')">
-              <div class="cat-icon"><i class="fas fa-film"></i></div>
-              <h3>Movies</h3>
-            </div>
-            <div class="category-card glass-panel" onclick="app.navigate('trains')">
-              <div class="cat-icon"><i class="fas fa-train"></i></div>
-              <h3>Trains</h3>
-            </div>
-            <div class="category-card glass-panel" onclick="app.navigate('flights')">
-              <div class="cat-icon"><i class="fas fa-plane"></i></div>
-              <h3>Flights</h3>
-            </div>
-            <div class="category-card glass-panel" onclick="app.navigate('buses')">
-              <div class="cat-icon"><i class="fas fa-bus"></i></div>
-              <h3>Buses</h3>
-            </div>
-            <div class="category-card glass-panel" onclick="app.navigate('hotels')">
-              <div class="cat-icon"><i class="fas fa-hotel"></i></div>
-              <h3>Hotels</h3>
-            </div>
-            <div class="category-card glass-panel" onclick="app.navigate('sports')">
-              <div class="cat-icon"><i class="fas fa-trophy"></i></div>
-              <h3>Sports</h3>
-            </div>
-          </div>
-
-          <h2 class="section-title mt-3">Trending Now <span class="badge" id="trendingCityBadge">Global</span></h2>
-          <div class="trending-scroll" id="trendingContainer">
-            <!-- Rendered by JS -->
-          </div>
-        </section>
-
-        <!-- DYNAMIC CATALOG VIEW (Used for Movies, Trains, etc.) -->
-        <section id="view-catalog" class="view">
-          <div class="catalog-header">
-            <h1 id="catalogTitle" class="gradient-text">Catalog</h1>
-            <div class="catalog-filters glass-panel" id="catalogFilters">
-              <!-- Rendered dynamically -->
-            </div>
-          </div>
-          <div class="items-grid" id="catalogGrid">
-            <!-- Rendered by JS -->
-          </div>
-        </section>
-
-        <!-- WISHLIST VIEW -->
-        <section id="view-wishlist" class="view">
-          <h1 class="gradient-text"><i class="fas fa-heart"></i> Your Wishlist</h1>
-          <div class="items-grid" id="wishlistGrid"></div>
-        </section>
-
-        <!-- BOOKINGS VIEW -->
-        <section id="view-bookings" class="view">
-          <h1 class="gradient-text"><i class="fas fa-ticket-alt"></i> My Bookings</h1>
-          <div class="bookings-list" id="bookingsList"></div>
-        </section>
-
-      </div>
-    </main>
-
-  </div>
-
-  <!-- AI CHATBOT FAB -->
-  <div class="ai-fab" onclick="app.toggleChat()">
-    <i class="fas fa-robot"></i>
-    <span class="ping"></span>
-  </div>
-
-  <!-- AI CHAT WINDOW -->
-  <div class="chat-window glass-panel hidden" id="chatWindow">
-    <div class="chat-header">
-      <div>
-        <i class="fas fa-robot text-accent"></i> <strong>Aura</strong> - AI Assistant
-      </div>
-      <button onclick="app.toggleChat()"><i class="fas fa-times"></i></button>
+        <div class="chat-body" id="chatBody">
+            <div class="msg ai">Hi! I'm Aura, your travel & event assistant. Where do you want to go or what do you want
+                to
+                watch?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Ask me anything..." onkeypress="app.handleChatEnter(event)">
+            <button onclick="app.sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
     </div>
-    <div class="chat-body" id="chatBody">
-      <div class="msg ai">Hi! I'm Aura, your travel & event assistant. Where do you want to go or what do you want to
-        watch?</div>
-    </div>
-    <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Ask me anything..." onkeypress="app.handleChatEnter(event)">
-      <button onclick="app.sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
-    </div>
-  </div>
 
-  <script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>
